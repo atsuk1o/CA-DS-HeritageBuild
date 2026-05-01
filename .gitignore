@@ -1,0 +1,14 @@
+# Ignore Maven build output
+target/
+
+# Ignore IDE specific files
+.settings/
+.classpath
+.project
+.idea/
+*.iml
+*.iws
+
+# Ignore temporary OS files
+Thumbs.db
+.DS_Store

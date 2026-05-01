@@ -8,5 +8,5 @@
         <relativePath>../pom.xml</relativePath> 
     </parent>
 
-    <artifactId>naming-service</artifactId>
+    <artifactId>client-gui</artifactId>
 </project>

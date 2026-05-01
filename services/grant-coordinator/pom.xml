@@ -5,8 +5,8 @@
         <groupId>com.heritage</groupId>
         <artifactId>HeritageBuild-Parent</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath> 
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>naming-service</artifactId>
+    <artifactId>grant-coordinator</artifactId>
 </project>
