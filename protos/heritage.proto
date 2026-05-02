@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package monitor;
+
+option java_package = "com.heritage.monitor";
+option java_multiple_files = true;
+
+service MonitorService {
+  rpc ReportStatusBatch (stream StatusRequest) returns (StatusSummary);
+}
+
+message StatusRequest {
+  string serviceName = 1;
+  string status = 2;
+}
+
+message StatusSummary {
+  int32 reportsReceived = 1;
+  string lastStatus = 2;
+}

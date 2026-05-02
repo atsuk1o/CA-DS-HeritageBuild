@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package naming;
+
+option java_package = "com.heritage.naming";
+option java_multiple_files = true;
+
+service NamingService {
+    rpc RegisterService (RegisterRequest) returns (RegisterResponse);
+    rpc DiscoverService (DiscoverRequest) returns (DiscoverResponse);
+}
+
+message RegisterRequest {
+  string serviceName = 1;
+  string address = 2;
+  int32 port = 3;
+}
+
+message RegisterResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message DiscoverRequest {
+  string serviceName = 1;
+}
+
+message DiscoverResponse {
+  string address = 1;
+  int32 port = 2;
+}

@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package material;
+
+option java_package = "com.heritage.material";
+option java_multiple_files = true;
+
+service VaultService {
+  rpc GetItem (ItemRequest) returns (ItemResponse);
+  rpc ListAllItems (Empty) returns (stream ItemResponse);
+}
+
+message Empty {}
+
+message ItemRequest {
+  string itemId = 1;
+}
+
+message ItemResponse {
+  string name = 1;
+  string description = 2;
+}
