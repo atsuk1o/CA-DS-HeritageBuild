@@ -6,7 +6,6 @@ import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
 public class NamingServer {
-
     public static void main(String[] args) throws IOException, InterruptedException {
         int port = 50051;
 
