@@ -12,7 +12,7 @@ import io.grpc.ServerBuilder;
 import io.grpc.StatusRuntimeException;
 
 public class MaterialServer {
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException, InterruptedException{
         int port = 50052;
         Server server = ServerBuilder.forPort(port).addService(new MaterialServiceImpl()).build();
         System.out.println("Material Vault Service starting on port " + port);
@@ -22,16 +22,15 @@ public class MaterialServer {
         server.awaitTermination();
     }
 
-    private static void registerWithNamingService(String name, int port) {
+    private static void registerWithNamingService(String name, int port){
         ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50051).usePlaintext().build();
-
         NamingServiceGrpc.NamingServiceBlockingStub stub = NamingServiceGrpc.newBlockingStub(channel);
         RegisterRequest request = RegisterRequest.newBuilder().setServiceName(name).setAddress("localhost").setPort(port).build();
 
-        try {
+        try{
             stub.registerService(request);
             System.out.println("Successfully registered with Naming Service.");
-        } catch (StatusRuntimeException e) {
+        }catch(StatusRuntimeException e){
             System.err.println("Failed to register: " + e.getStatus());
         }
     }
