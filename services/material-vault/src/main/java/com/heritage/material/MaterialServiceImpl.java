@@ -29,4 +29,34 @@ public class MaterialServiceImpl extends VaultServiceGrpc.VaultServiceImplBase{
         }
         responseObserver.onCompleted();
     }
+
+    @Override
+    public StreamObserver<SubmitRequest> submitMaterials(StreamObserver<SubmitSummary> responseObserver){
+        return new StreamObserver<SubmitRequest>(){
+            private int received = 0;
+            private int accepted = 0;
+
+            @Override
+            public void onNext(SubmitRequest req){
+                received++;
+                if(!req.getName().isEmpty()){
+                    String newId = "H00" + (items.size() + 1);
+                    items.put(newId, req.getName());
+                    accepted++;
+                    System.out.println("Added: " + req.getName() + " → " + newId);
+                }
+            }
+
+            @Override
+            public void onError(Throwable t){
+                System.err.println("Submit error: " + t.getMessage());
+            }
+
+            @Override
+            public void onCompleted(){
+                responseObserver.onNext(SubmitSummary.newBuilder().setTotalReceived(received).setTotalAccepted(accepted).setMessage(accepted + " materials added to vault.").build());
+                responseObserver.onCompleted();
+            }
+        };
+    }
 }

@@ -7,7 +7,9 @@ option java_multiple_files = true;
 
 service VaultService {
   rpc GetItem (ItemRequest) returns (ItemResponse);
-  rpc ListAllItems (Empty) returns (stream ItemResponse);
+  rpc ListAllItems (Empty) returns (stream ItemResponse); 
+  rpc SubmitMaterials (stream SubmitRequest) returns (SubmitSummary);
+  rpc SearchSession (stream SearchQuery) returns (stream ItemResponse);
 }
 
 message Empty {}
@@ -19,4 +21,23 @@ message ItemRequest {
 message ItemResponse {
   string name = 1;
   string description = 2;
+}
+
+message SubmitRequest {
+  string name = 1;
+  string region = 2;
+  string use_case = 3;
+  bool local = 4; 
+  string submitted_by = 5;
+}
+
+message SubmitSummary {
+  int32 total_received = 1;
+  int32 total_accepted = 2;
+  string message = 3;
+}
+
+message SearchQuery {
+  string keyword = 1;
+  string region  = 2;
 }
