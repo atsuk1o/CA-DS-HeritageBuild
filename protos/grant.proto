@@ -7,6 +7,9 @@ option java_multiple_files = true;
 
 service GrantService {
   rpc NegotiateGrant (stream GrantRequest) returns (stream GrantResponse);
+  rpc GetApplicationStatus (TrackRequest) returns (GrantResponse);
+  rpc ListAvailableGrants (CountryRequest) returns (stream GrantResponse);
+  rpc UploadDocuments (stream DocumentChunk) returns (UploadSummary);
 }
 
 message GrantRequest {
@@ -17,4 +20,27 @@ message GrantRequest {
 message GrantResponse {
   string status = 1;
   string feedback = 2;
+}
+
+message TrackRequest {
+  string application_id = 1;
+}
+
+message CountryRequest {
+  string country = 1;
+}
+
+message DocumentChunk {
+  string application_id = 1;
+  string filename = 2;
+  bytes data = 3;
+  int32 chunk_index = 4;
+  bool is_last_chunk = 5;
+}
+
+message UploadSummary {
+  int32 chunks_received = 1;
+  string filename = 2;
+  bool success = 3;
+  string message = 4;
 }
