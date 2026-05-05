@@ -1,12 +1,12 @@
 package com.heritage.grant;
 
-import io.grpc.stub.StreamObserver;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import io.grpc.stub.StreamObserver;
 
 public class GrantServiceImpl extends GrantServiceGrpc.GrantServiceImplBase {
     private final Map<String, List<GrantResponse>> availableGrants = new ConcurrentHashMap<>();

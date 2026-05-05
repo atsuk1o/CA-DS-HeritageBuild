@@ -59,4 +59,31 @@ public class MaterialServiceImpl extends VaultServiceGrpc.VaultServiceImplBase{
             }
         };
     }
+
+    @Override
+    public StreamObserver<SearchQuery> searchSession(StreamObserver<ItemResponse> responseObserver){
+        return new StreamObserver<SearchQuery>(){
+
+            @Override
+            public void onNext(SearchQuery query){
+                String kw = query.getKeyword().toLowerCase().trim();
+                System.out.println("Search: '" + kw + "'");
+                for (Map.Entry<String, String> entry : items.entrySet()) {
+                    if (kw.isEmpty() || entry.getValue().toLowerCase().contains(kw)){
+                        responseObserver.onNext(ItemResponse.newBuilder().setName(entry.getValue()).setDescription("ID: " + entry.getKey()).build());
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable t){
+                System.err.println("Search error: " + t.getMessage());
+            }
+
+            @Override
+            public void onCompleted(){
+                responseObserver.onCompleted();
+            }
+        };
+    }
 }

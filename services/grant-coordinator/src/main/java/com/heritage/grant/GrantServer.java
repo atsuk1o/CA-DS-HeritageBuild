@@ -7,14 +7,16 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import io.grpc.StatusRuntimeException;
 
 public class GrantServer{
     public static void main(String[] args) throws Exception{
         int port = 50054;
         Server server = ServerBuilder.forPort(port).addService(new GrantServiceImpl()).build();
 
-        server.start();
         System.out.println("Grant Coordinator Service starting on port " + port);
+        server.start();
+
         registerToNamingService("Grant-Coordinator", "localhost", port);
         server.awaitTermination();
     }
@@ -26,8 +28,8 @@ public class GrantServer{
         try{
             stub.registerService(RegisterRequest.newBuilder().setServiceName(name).setAddress(host).setPort(port).build());
             System.out.println("Successfully registered with Naming Service.");
-        }catch(Exception e){
-            System.out.println("Could not register: " + e.getMessage());
+        }catch (StatusRuntimeException e){
+            System.err.println("Failed to register: " + e.getStatus());
         }finally{
             channel.shutdown();
         }

@@ -7,6 +7,9 @@ option java_multiple_files = true;
 
 service MonitorService {
   rpc ReportStatusBatch (stream StatusRequest) returns (StatusSummary);
+  rpc RegisterSite (RegisterSiteRequest) returns (RegisterSiteResponse);
+  rpc StreamRiskAlerts (RiskAlertSubscription) returns (stream RiskAlert);
+  rpc LiveMonitorSession (stream SensorReading) returns (stream MonitoringUpdate);
 }
 
 message StatusRequest {
@@ -17,4 +20,49 @@ message StatusRequest {
 message StatusSummary {
   int32 reportsReceived = 1;
   string lastStatus = 2;
+}
+
+message RegisterSiteRequest {
+  string name = 1;
+  string country = 2;
+  string type = 3;
+  float latitude = 4;
+  float longitude = 5;
+  string description = 6;
+}
+
+message RegisterSiteResponse{
+  string site_id = 1;
+  string status = 2;
+  string message = 3;
+}
+
+message RiskAlertSubscription {
+  string site_id = 1;
+  string min_severity = 2;
+}
+
+message RiskAlert {
+  string risk_id = 1;
+  string site_id = 2;
+  string site_name = 3;
+  string risk_type = 4;
+  string severity = 5;
+  string message = 6;
+  int64 timestamp = 7;
+}
+
+message SensorReading {
+  string site_id = 1;
+  string sensor_type = 2;
+  float value = 3;
+  string unit = 4;
+  int64 timestamp = 5;
+}
+
+message MonitoringUpdate{
+  string site_id = 1;
+  string assessment = 2;
+  string detail = 3;
+  int64 timestamp = 4;
 }
