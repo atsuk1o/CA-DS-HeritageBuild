@@ -1,4 +1,4 @@
-package com.heritage.common;
+package com.heritage.material;
 
 import io.grpc.Metadata;
 import io.grpc.ServerCall;

@@ -31,12 +31,13 @@ public class GrantServiceImpl extends GrantServiceGrpc.GrantServiceImplBase {
 
             @Override
             public void onNext(GrantRequest request){
-                System.out.println("Negotiation request: " + request.getProjectTitle() + " | Amount: $" + request.getAmountRequested());
+                System.out.println("Negotiation request: " + request.getProjectTitle()+ " | Amount: $" + request.getAmountRequested());
+
                 String feedback = generateFeedback(request.getProjectTitle(), request.getAmountRequested());
-                String appId = "GRT-" + request.getProjectTitle().hashCode();
+                String appId = "GRT-" + Math.abs(request.getProjectTitle().hashCode());
                 applicationStatus.put(appId, "UNDER_REVIEW");
 
-                responseObserver.onNext(GrantResponse.newBuilder().setStatus("UNDER_REVIEW").setFeedback(feedback).build());
+                responseObserver.onNext(GrantResponse.newBuilder().setStatus("UNDER_REVIEW").setFeedback("Application ID: " + appId + " | " + feedback).build());
             }
 
             @Override
